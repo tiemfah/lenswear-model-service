@@ -71,4 +71,4 @@ def predict():
 
 if __name__ == '__main__':
     init_model_server()
-    app.run(debug=False)
+    app.run(debug=False, port=9000)
