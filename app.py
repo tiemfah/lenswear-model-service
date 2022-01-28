@@ -1,6 +1,7 @@
 import io
 import os
 from pickle import load
+from typing import Dict, List
 
 from flask import Flask, Response, request
 from google.cloud import storage
@@ -26,14 +27,30 @@ def download_blob(bucket_name):
 
 def load_models():
     global model
-    model = models.load_model("assets/shirt.h5")
+    model = models.load_model("assets/apparel_list.h5")
     print('Model loaded.')
 
 def load_classes():
     global apparel_ids
-    with open("assets/shirt_classes.pickle", 'rb') as f:
+    with open("assets/apparel_list.pkl", 'rb') as f:
         apparel_ids = load(f)
     print('Classes loaded.')
+
+def cloth_matching(classification_results: List, img: Image) -> Dict[str, float]:
+    """
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    WRITE YOUR FUNCTION HERE
+    params:
+        results -> classification result from your model
+    return:
+        List[str] of possible apparel ids in database
+    """
+    return {"apparel_shirt_1": 0.6, "apparel_shirt_2": 0.4}
 
 def preprocessing_image(img, target_size):
     if img.mode != "RGB":
@@ -60,13 +77,10 @@ def predict():
     image_file = request.files['image'].read()
     img = Image.open(io.BytesIO(image_file))
     process_image = preprocessing_image(img, target_size=(256, 256))
-    results = model.predict(process_image)
-    response['predictions'] = []
-    for i in range(len(results[0])):
-        row = {'label': apparel_ids[i],
-               'probability': f"{float(results[0][i])*100:.2f}%"}
-        response['predictions'].append(row)
-        response['success'] = True
+    classification_results = model.predict(process_image)
+    matching_result = cloth_matching(classification_results, img)
+    response['predictions'] = matching_result
+    response['success'] = True
     return response, 200
 
 if __name__ == '__main__':
