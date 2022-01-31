@@ -74,13 +74,6 @@ def to_grayscale(arr):
 
 def cloth_matching(image, filenames: List) -> Dict[str, float]:
     """
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
-    WRITE YOUR FUNCTION HERE
     params:
         image -> 3D numpy array of query image
     return:
