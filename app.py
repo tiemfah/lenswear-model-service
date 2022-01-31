@@ -7,6 +7,7 @@ from flask import Flask, Response, request
 from google.cloud import storage
 from keras import models
 
+from matplotlib.pyplot import imread
 from keras.preprocessing.image import img_to_array
 from numpy import expand_dims
 from PIL import Image
